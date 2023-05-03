@@ -1,15 +1,6 @@
 BANCO: 
     matriz_sod
 
-FUNÇÕES SQL:
-    # UNIQUE_PERFIS retorna a concatenação entre perfil1 e perfil2, normalizando por ordem crescente e acrescentado o símbolo de underline entre os valores.
-    unique_perfis(a INT, b INT) RETURNS TEXT
-                AS 
-                '''
-                return f"{min(a, b)}_{max(a, b)}"
-                '''
-
-Matriz
 TABELAS:
     SISTEMAS
         codigo INTEGER NOT NULL AUTOINCREMENT,
