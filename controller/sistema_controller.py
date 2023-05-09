@@ -46,7 +46,7 @@ class SistemaController:
 
     def busca_sistema(self, codigo, nome):
         """
-        Método busca_sistemas
+        Método busca_sistema
         """
         sistema = Sistema()
         sistema.setCodigo(codigo)

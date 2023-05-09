@@ -1,4 +1,16 @@
+"""
+"""
+import sqlite3
+from model.Banco import Banco
+
+
 class Perfil:
+    def setCodigo(self, codigo):
+        self.codigo = codigo
+
+    def getCodigo():
+        return self.codigo
+            
     def setNome(self, nome):
         self.nome = nome
 
@@ -17,4 +29,29 @@ class Perfil:
     def getCodSistema():
         return self.cod_sistema
     
+    def listar(self):
+        banco = Banco()
+        try:
+            banco.conecta_bd()
+            banco.cursor.execute(
+                """ SELECT codigo, nome, descricao, cod_sistema FROM perfis ORDER BY codigo ASC; """)
+            resposta = banco.cursor.fetchall()
+            return {'success': True, 'resultado': resposta}
+        except Exception as erro:
+            return {'success': False, 'mensagem': f"Ocorreu um erro ao listar as matrizes: {erro}"}
+        finally:
+            banco.desconecta_bd()    
     
+    def listar_cb(self):
+        banco = Banco()
+        try:
+            banco.conecta_bd()
+            banco.cursor.execute(
+                """ SELECT codigo, nome FROM perfis ORDER BY codigo ASC; """)
+            resposta = banco.cursor.fetchall()
+            resultado = [(row[0], row[1]) for row in resposta]
+            return {'success': True, 'resultado': resultado}
+        except Exception as erro:
+            return {'success': False, 'mensagem': f"Ocorreu um erro ao listar as matrizes: {erro}"}
+        finally:
+            banco.desconecta_bd()

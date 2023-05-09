@@ -16,7 +16,7 @@ TABELAS:
         PRIMARY KEY(codigo)
         FOREIGN KEY(cod_sistema) REFERENCES sistemas(codigo)
 
-    MATRIZ_SoD
+    MATRIZ_SOD
         codigo INTEGER NOT NULL AUTOINCREMENT
         cod_perfil1 INTEGER NOT NULL
         cod_perfil2 INTEGER NOT NULL

@@ -51,7 +51,7 @@ class Main(tk.Frame):
         filemenu.add_separator()
         filemenu.add_command(label="Sistemas", command=self.sistema_frame)
         filemenu.add_command(label="Perfis")
-        filemenu.add_command(label="MatrizSoD")
+        filemenu.add_command(label="MatrizSoD", command=self.matriz_sod_frame)
         filemenu.add_command(label="Usuários")
         filemenu.add_separator()
         def sair():
@@ -83,6 +83,13 @@ class Main(tk.Frame):
         """
         self.fecha_componentes()
         self.controller.lista_sistemas()
+
+    def matriz_sod_frame(self):
+        """
+        Método Matriz_sod_frame
+        """
+        self.fecha_componentes()
+        self.controller.lista_matrizes_sod()
 
     def fecha_componentes(self):
         """
