@@ -47,7 +47,13 @@ class Perfil:
         try:
             banco.conecta_bd()
             banco.cursor.execute(
-                """ SELECT codigo, nome FROM perfis ORDER BY codigo ASC; """)
+                """ SELECT 
+                        perfis.codigo,
+                        sistemas.nome || ' - ' || perfis.nome AS "nome"
+                    FROM
+                        sistemas
+                    INNER JOIN
+                        perfis ON sistemas.codigo = perfis.cod_sistema ORDER BY perfis.codigo ASC; """)
             resposta = banco.cursor.fetchall()
             resultado = [(row[0], row[1]) for row in resposta]
             return {'success': True, 'resultado': resultado}

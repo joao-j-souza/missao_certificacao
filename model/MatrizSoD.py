@@ -5,6 +5,12 @@ from model.Banco import Banco
 
 
 class MatrizSod:
+    def setCodigo(self, codigo):
+        self.codigo = codigo
+
+    def getCodigo():
+        return self.codigo
+
     def setCodPerfil1(self, cod_perfil1):
         self.cod_perfil1 = cod_perfil1
 
@@ -16,7 +22,7 @@ class MatrizSod:
 
     def getCodPerfil2():
         return self.cod_perfil2
-    
+
     def buscar(self):
         banco = Banco()
         try:
@@ -31,7 +37,7 @@ class MatrizSod:
             else:
                 return {'success': True, 'resultado': resposta}
         except Exception as erro:
-                return {'success': False, 'mensagem': f"Ocorreu um erro na busca: {erro}"}
+            return {'success': False, 'mensagem': f"Ocorreu um erro na busca: {erro}"}
         finally:
             banco.desconecta_bd()
 
@@ -48,14 +54,27 @@ class MatrizSod:
         except Exception as erro:
             return {'success': False, 'mensagem': f"Ocorreu um erro ao cadastrar uma matriz: {erro}"}
         finally:
-            banco.desconecta_bd()            
-    
+            banco.desconecta_bd()
+
     def listar(self):
         banco = Banco()
         try:
             banco.conecta_bd()
             banco.cursor.execute(
-                """ SELECT codigo, cod_perfil1, cod_perfil2 FROM matriz_sod ORDER BY codigo ASC; """)
+                """ SELECT
+                        matriz_sod.codigo,
+                        sistema1.nome || ' - ' || perfil1.nome AS "Sistema_Perfil1",
+                        sistema2.nome || ' - ' || perfil2.nome AS "Sistema_Perfil2"
+                    FROM
+                        matriz_sod
+                    INNER JOIN
+                        perfis AS perfil1 ON matriz_sod.cod_perfil1 = perfil1.codigo
+                    INNER JOIN
+                        perfis AS perfil2 ON matriz_sod.cod_perfil2 = perfil2.codigo
+                    INNER JOIN
+                        sistemas AS sistema1 ON perfil1.cod_sistema = sistema1.codigo
+                    INNER JOIN
+                        sistemas AS sistema2 ON perfil2.cod_sistema = sistema2.codigo; """)
             resposta = banco.cursor.fetchall()
             return {'success': True, 'resultado': resposta}
         except Exception as erro:
@@ -94,6 +113,4 @@ class MatrizSod:
         except Exception as erro:
             return {'success': False, 'mensagem': f"Ocorreu um erro ao tentar deletar o registro: {erro}"}
         finally:
-            banco.desconecta_bd()            
-
-            
+            banco.desconecta_bd()

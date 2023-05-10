@@ -48,11 +48,8 @@ class Funcs():
         self.listaMatrizes.selection()
         for n in self.listaMatrizes.selection():
             col1, col2, col3 = self.listaMatrizes.item(n, 'values')
-
         self.codigo_entry.insert(tk.END, col1)
-
         self.codigo_perfil1_cb.insert(tk.END, col2)
-
         self.codigo_perfil2_cb.insert(tk.END, col3)
 
     def exibir_mensagem(self, matriz):
@@ -71,6 +68,8 @@ class Funcs():
         )]
         perfil2_codigo = self.codigo_perfil2_cb["values_id"][self.codigo_perfil2_cb.current(
         )]
+
+        print(perfil1_codigo, perfil2_codigo)
 
         if (not perfil1_codigo) or (not perfil2_codigo):
             if not perfil1_codigo:
@@ -101,8 +100,8 @@ class Funcs():
                 messagebox.showerror(
                     "Alerta", "O Campo Perfil2 é obrigatório!")
         else:
-            controller = MatrizController()
-            matriz = controller.altera_matriz(perfil1, perfil2)
+            controller = MatrizSodController()
+            matriz = controller.altera_matriz(codigo, perfil1, perfil2)
             self.exibir_mensagem(matriz)
             self.lista_matrizes()
 
@@ -114,7 +113,7 @@ class Funcs():
         if not codigo:
             messagebox.showerror("Alerta!", "O Campo Código é obrigatório!")
         else:
-            controller = MatrizController()
+            controller = MatrizSodController()
             matriz = controller.apaga_matriz(codigo)
             self.exibir_mensagem(matriz)
             self.limpa_tela()
@@ -126,7 +125,7 @@ class Funcs():
         """
         codigo = self.codigo_entry.get()
         # nome = self.nome_entry.get()
-        controller = MatrizController()
+        controller = MatrizSodController()
         # if (codigo or nome):
         if codigo:
             matriz = controller.busca_matriz(codigo)
@@ -148,8 +147,7 @@ class Funcs():
         matrizes = controller.lista_matrizes()
         if matrizes['success']:
             for matriz in matrizes['resultado']:
-                self.listaMatrizes.insert("", tk.END, values=matriz)                
-        # else:
+                self.listaMatrizes.insert("", tk.END, values=matriz)
         self.exibir_mensagem(matrizes)
 
     def popula_combos(self):
@@ -242,26 +240,26 @@ class MatrizSodView(Funcs):
         self.codigo_entry.place(relx=0.05, rely=0.12, relwidth=0.08)
 
         # Criação da Label e Entrada do perfil1
-        lb_perfil1 = tk.Label(self.form, text="Perfil1*:",
+        lb_perfil1 = tk.Label(self.form, text="Sistema - Perfil*:",
                               bg="#dfe3ee", fg="#107db2")
-        lb_perfil1.place(relx=0.05, rely=0.3)
+        lb_perfil1.place(relx=0.05, rely=0.4)
 
         cod_perfil1 = StringVar()
 
         self.codigo_perfil1_cb = CustomCombobox(
             self.form, textvariable=cod_perfil1)
-        self.codigo_perfil1_cb.place(relx=0.14, rely=0.3, relwidth=0.25)
+        self.codigo_perfil1_cb.place(relx=0.22, rely=0.4, relwidth=0.72)
 
         # Criação da Label e Entrada do perfil2
-        lb_perfil2 = tk.Label(self.form, text="Perfil2*:",
+        lb_perfil2 = tk.Label(self.form, text="Sistema - Perfil*:",
                               bg="#dfe3ee", fg="#107db2")
-        lb_perfil2.place(relx=0.48, rely=0.3)
+        lb_perfil2.place(relx=0.05, rely=0.6)
 
         cod_perfil2 = StringVar()
 
         self.codigo_perfil2_cb = CustomCombobox(
             self.form, textvariable=cod_perfil2)
-        self.codigo_perfil2_cb.place(relx=0.57, rely=0.3, relwidth=0.25)
+        self.codigo_perfil2_cb.place(relx=0.22, rely=0.6, relwidth=0.72)
 
     def lista_componentes(self):
         """
@@ -271,8 +269,8 @@ class MatrizSodView(Funcs):
             self.lista, height=3, columns=("col1", "col2", "col3"))
         self.listaMatrizes.heading("#0", text="")
         self.listaMatrizes.heading("#1", text="Código")
-        self.listaMatrizes.heading("#2", text="Perfil1")
-        self.listaMatrizes.heading("#3", text="Perfil2")
+        self.listaMatrizes.heading("#2", text="Sistema - Perfil")
+        self.listaMatrizes.heading("#3", text="Sistema - Perfil")
         self.listaMatrizes.column("#0", width=10)
         self.listaMatrizes.column("#1", width=40)
         self.listaMatrizes.column("#2", width=175)
