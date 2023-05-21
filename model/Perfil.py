@@ -5,6 +5,11 @@ from model.Banco import Banco
 
 
 class Perfil:
+    def __init__(self):
+        self.codigo = None
+        self.nome = None
+        self.descricao = None
+
     def setCodigo(self, codigo):
         self.codigo = codigo
 
@@ -38,7 +43,7 @@ class Perfil:
             resposta = banco.cursor.fetchall()
             return {'success': True, 'resultado': resposta}
         except Exception as erro:
-            return {'success': False, 'mensagem': f"Ocorreu um erro ao listar as matrizes: {erro}"}
+            return {'success': False, 'mensagem': f"Ocorreu um erro ao listar os perfis: {erro}"}
         finally:
             banco.desconecta_bd()    
     
@@ -58,6 +63,6 @@ class Perfil:
             resultado = [(row[0], row[1]) for row in resposta]
             return {'success': True, 'resultado': resultado}
         except Exception as erro:
-            return {'success': False, 'mensagem': f"Ocorreu um erro ao listar as matrizes: {erro}"}
+            return {'success': False, 'mensagem': f"Ocorreu um erro ao listar os perfis: {erro}"}
         finally:
             banco.desconecta_bd()

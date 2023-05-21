@@ -18,7 +18,7 @@ class MatrizSodController:
 
     def adiciona_matriz(self, p1, p2):
         """
-        Método adicionar_sistema
+        Método adicionar_matriz
         """
         perfil1 = None
         perfil2 = None
@@ -34,6 +34,7 @@ class MatrizSodController:
         matriz = MatrizSod()
         matriz.setCodPerfil1(perfil1)
         matriz.setCodPerfil2(perfil2)
+        matriz.setConcat(f"{perfil1}_{perfil2}")
         resultado = matriz.inserir()
         return resultado
 
@@ -80,5 +81,5 @@ class MatrizSodController:
         Método lista_matrizes
         """
         matriz = MatrizSod()
-        resultado = matriz.listar()
+        resultado = matriz.listar_cb()
         return resultado

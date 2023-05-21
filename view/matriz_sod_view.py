@@ -135,7 +135,6 @@ class Funcs():
                     self.listaMatrizes.insert("", tk.END, values=s)
             self.exibir_mensagem(matriz)
         else:
-            # messagebox.showinfo("Informação", "Digite o código ou o nome.")
             messagebox.showinfo("Informação", "Digite o código.")
 
     def lista_matrizes(self):
