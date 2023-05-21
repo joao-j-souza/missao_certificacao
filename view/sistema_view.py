@@ -3,7 +3,6 @@ Permite adicionar o diretório pai do arquivo atual ao caminho de busca de módu
 """
 import sys
 from pathlib import Path
-# from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 from tkinter.font import Font
@@ -37,7 +36,6 @@ class Funcs():
         Preenche o formulário ao dar um duplo clique no registro da lista.
         :param event: Evento que captura o duplo clique. 
         """
-        #self.limpa_tela()
         self.codigo_entry.delete(0, tk.END)
         self.nome_entry.delete(0, tk.END)        
         self.listaSistemas.selection()

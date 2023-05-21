@@ -40,7 +40,8 @@ class Banco:
                 codigo INTEGER PRIMARY KEY,
                 cod_perfil1 INTEGER NOT NULL,
                 cod_perfil2 INTEGER NOT NULL,
-                UNIQUE (cod_perfil1, cod_perfil2),
+                concat INTEGER NOT NULL,
+                UNIQUE (concat),
                 FOREIGN KEY(cod_perfil1) REFERENCES perfis(codigo),
                 FOREIGN KEY(cod_perfil2) REFERENCES perfis(codigo)
             );
@@ -50,11 +51,19 @@ class Banco:
             CREATE TABLE IF NOT EXISTS usuarios (
                 codigo INTEGER PRIMARY KEY,
                 cpf VARCHAR(11) NOT NULL,
-                cod_perfil INTEGER NOT NULL,
-                UNIQUE (cpf),
-                UNIQUE (cpf, cod_perfil),
-                FOREIGN KEY(cod_perfil) REFERENCES perfis(codigo)
+                UNIQUE (cpf)
             );
         """)
+        # Cria a tabela usuarios_perfis
+        self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS usuarios_perfis (
+                codigo INTEGER PRIMARY KEY,
+                cod_usuario INTEGER NOT NULL,
+                cod_perfil INTEGER NOT NULL,
+                UNIQUE (cod_usuario, cod_perfil),
+                FOREIGN KEY(cod_usuario) REFERENCES usuarios(codigo),
+                FOREIGN KEY(cod_perfil) REFERENCES perfis(codigo)
+            );
+        """)        
         self.conn.commit()
         #self.desconecta_bd()
