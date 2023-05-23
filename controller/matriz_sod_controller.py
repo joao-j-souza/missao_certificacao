@@ -38,23 +38,24 @@ class MatrizSodController:
         resultado = matriz.inserir()
         return resultado
 
-    def altera_matriz(self, codigo, p1, p2):
+    def altera_matriz(self, codigo, perfil1, perfil2):
         """
         Método altera_matriz
         """
-        if p1 == p2:
+        if perfil1 == perfil2:
             return {'success': False, 'mensagem': "Os perfis não podem ser os mesmos."}
         else:
-            if p1 < p2:
-                perfil1 = p1
-                perfil2 = p2
+            if perfil1 < perfil2:
+                p1 = perfil1
+                p2 = perfil2
             else:
-                perfil1 = p2
-                perfil2 = p1
+                p1 = perfil2
+                p2 = perfil1
         matriz = MatrizSod()
         matriz.setCodigo(codigo)
-        matriz.setCodPerfil1(perfil1)
-        matriz.setCodPerfil2(perfil2)
+        matriz.setCodPerfil1(p1)
+        matriz.setCodPerfil2(p2)
+        matriz.setConcat(f"{p1}_{p2}")
         resultado = matriz.alterar()
         return resultado
     
@@ -73,7 +74,7 @@ class MatrizSodController:
         """
         matriz = MatrizSod()
         matriz.setCodigo(codigo)
-        resultado = matriz.buscar()
+        resultado = matriz.listar_cb()
         return resultado
 
     def lista_matrizes(self):

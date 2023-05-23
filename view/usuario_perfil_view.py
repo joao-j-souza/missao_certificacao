@@ -63,12 +63,15 @@ class Funcs():
     def cria_usuario_perfil(self):
         """
         Função para cadastrar um usuario_perfil.
-        """
-        # Obtendo o código correspondente aos valores selecionados
-        cod_usuario = self.codigo_usuario_cb["values_id"][self.codigo_usuario_cb.current(
-        )]
-        cod_perfil = self.codigo_perfil_cb["values_id"][self.codigo_perfil_cb.current(
-        )]
+        """       
+        cod_usuario = None
+        cod_perfil = None
+
+        if(self.codigo_usuario_cb.current() != -1):
+            cod_usuario = self.codigo_usuario_cb["values_id"][self.codigo_usuario_cb.current()]
+
+        if(self.codigo_perfil_cb.current() != -1):
+            cod_perfil = self.codigo_perfil_cb["values_id"][self.codigo_perfil_cb.current()]
 
         if (not cod_usuario) or (not cod_perfil):
             if not cod_usuario:
@@ -102,6 +105,7 @@ class Funcs():
             controller = UsuarioPerfilController()
             usuario_perfil = controller.altera_usuario_perfil(codigo, cod_usuario, cod_perfil)
             self.exibir_mensagem(usuario_perfil)
+            self.limpa_tela()
             self.lista_usuarios_perfis()
 
     def apaga_usuario_perfil(self):
@@ -128,10 +132,10 @@ class Funcs():
         # if (codigo or nome):
         if codigo:
             usuario_perfil = controller.busca_usuario_perfil(codigo)
-            if "resultado" in usuario_perfil:
-                self.listaUsuarioPerfis.delete(*self.listaUsuarioPerfis.get_children())
+            if 'resultado' in usuario_perfil:
+                self.listaUsuariosPerfis.delete(*self.listaUsuariosPerfis.get_children())
                 for s in usuario_perfil['resultado']:
-                    self.listaUsuarioPerfis.insert("", tk.END, values=s)
+                    self.listaUsuariosPerfis.insert("", tk.END, values=s)
             self.exibir_mensagem(usuario_perfil)
         else:
             # messagebox.showinfo("Informação", "Digite o código ou o nome.")
@@ -150,33 +154,33 @@ class Funcs():
         self.exibir_mensagem(usuarios_perfis)
 
     def popula_combos(self):
-        controller = PerfilController()
-        # Buscando os perfis no banco de dados
-        perfis = controller.lista_perfis_cb()
+        perfil = PerfilController()
+        # Invoca o método lista_perfis_cb do PerfilController atravé do objeto perfil
+        perfis = perfil.lista_perfis_cb()
 
-        # Criando uma lista de valores para o combobox, contendo o nome do perfil
-        values = [value[1] for value in perfis["resultado"]]
-
-        # Criando uma lista de valores para o combobox, contendo o código do perfil
-        codigos = [value[0] for value in perfis["resultado"]]
+        if 'resultado' in perfis:
+            # Criando uma lista de valores para o combobox, contendo o código do perfil
+            lst_codigos_perfis = [lp[0] for lp in perfis["resultado"]]            
+            # Criando uma lista de valores para o combobox, contendo o nome do perfil
+            lst_nomes_perfis = [lp[1] for lp in perfis['resultado']]
 
         # Configurando as opções do combobox para exibir o nome do perfil e retornar o código correspondente
-        self.codigo_perfil_cb["values"] = values
-        self.codigo_perfil_cb["values_id"] = codigos
+        self.codigo_perfil_cb["values_id"] = lst_codigos_perfis
+        self.codigo_perfil_cb["values"] = lst_nomes_perfis
 
         controller = UsuarioController()
         # Buscando os usuários no banco de dados
         usuarios = controller.lista_usuarios_cb()
 
-        # Criando uma lista de valores para o combobox, contendo o nome do usuário
-        values = [value[1] for value in usuarios["resultado"]]
-
-        # Criando uma lista de valores para o combobox, contendo o código do usuário
-        codigos = [value[0] for value in usuarios["resultado"]]
+        if 'resultado' in usuarios:
+            # Criando uma lista de valores para o combobox, contendo o código do usuário
+            lst_codigos_usuarios = [lu[0] for lu in usuarios["resultado"]]            
+            # Criando uma lista de valores para o combobox, contendo o nome do usuário
+            lst_nomes_usuarios = [lu[1] for lu in usuarios["resultado"]]
 
         # Configurando as opções do combobox para exibir o nome do usuário e retornar o código correspondente
-        self.codigo_usuario_cb["values"] = values
-        self.codigo_usuario_cb["values_id"] = codigos
+        self.codigo_usuario_cb["values_id"] = lst_codigos_usuarios
+        self.codigo_usuario_cb["values"] = lst_nomes_usuarios
 
 
 class UsuarioPerfilView(Funcs):

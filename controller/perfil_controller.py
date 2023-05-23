@@ -67,7 +67,7 @@ class PerfilController:
     
     def lista_perfis_cb(self):
         """
-        Método lista_perfis_cb
+        Cria uma instância da classe Perfil e invoca o método listar_cb através do objeto instanciado.
         """
         perfil = Perfil()
         resultado = perfil.listar_cb()

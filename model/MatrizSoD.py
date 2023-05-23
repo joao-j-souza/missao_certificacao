@@ -6,40 +6,40 @@ from model.Banco import Banco
 
 class MatrizSod:
     def __init__(self):
-        self.codigo = None
-        self.cod_perfil1 = None
-        self.cod_perfil2 = None
+        self.codigo = ""
+        self.cod_perfil1 = ""
+        self.cod_perfil2 = ""
 
     def setCodigo(self, codigo):
         self.codigo = codigo
 
-    def getCodigo():
+    def getCodigo(self):
         return self.codigo
 
     def setCodPerfil1(self, cod_perfil1):
         self.cod_perfil1 = cod_perfil1
 
-    def getCodPerfil1():
+    def getCodPerfil1(self):
         return self.cod_perfil1
 
     def setCodPerfil2(self, cod_perfil2):
         self.cod_perfil2 = cod_perfil2
 
-    def getCodPerfil2():
+    def getCodPerfil2(self):
         return self.cod_perfil2
     
     def setConcat(self, concat):
         self.concat = concat
     
-    def getConcat():
-        return concat
+    def getConcat(self):
+        return self.concat
 
     def buscar(self):
         banco = Banco()
         try:
             banco.conecta_bd()
             codigo = self.codigo if self.codigo != "" else "NULL"
-            query = """ SELECT codigo, cod_perfil1, cod_perfil2. concat FROM matriz_sod WHERE ({0} IS NULL OR codigo = {0}) ORDER BY codigo ASC; """.format(
+            query = """ SELECT codigo, cod_perfil1, cod_perfil2, concat FROM matriz_sod WHERE ({0} IS NULL OR codigo = {0}) ORDER BY codigo ASC; """.format(
                 codigo)
             banco.cursor.execute(query)
             resposta = banco.cursor.fetchall()
@@ -71,8 +71,8 @@ class MatrizSod:
         banco = Banco()
         try:
             banco.conecta_bd()
-            banco.cursor.execute(
-                """ SELECT
+            codigo = self.codigo if self.codigo != "" else "NULL"
+            query = f""" SELECT
                         matriz_sod.codigo,
                         sistema1.nome || ' - ' || perfil1.nome AS "Sistema_Perfil1",
                         sistema2.nome || ' - ' || perfil2.nome AS "Sistema_Perfil2"
@@ -84,7 +84,9 @@ class MatrizSod:
                     INNER JOIN sistemas AS sistema1 
                     ON perfil1.cod_sistema = sistema1.codigo
                     INNER JOIN sistemas AS sistema2 
-                    ON perfil2.cod_sistema = sistema2.codigo; """)
+                    ON perfil2.cod_sistema = sistema2.codigo
+                    WHERE ({codigo} IS NULL OR matriz_sod.codigo = {codigo}); """
+            banco.cursor.execute(query)
             resposta = banco.cursor.fetchall()
             return {'success': True, 'resultado': resposta}
         except Exception as erro:

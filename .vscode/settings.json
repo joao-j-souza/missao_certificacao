@@ -6,5 +6,8 @@
         "editor.defaultFormatter": "ms-python.autopep8"
     },
     "python.formatting.provider": "none",
-    "python.languageServer.analysis.diagnostics": false
+    "python.languageServer.analysis.diagnostics": false,
+    "files.exclude": {
+        "**/__pycache__": true
+    }
 }

@@ -13,25 +13,25 @@ class Perfil:
     def setCodigo(self, codigo):
         self.codigo = codigo
 
-    def getCodigo():
+    def getCodigo(self):
         return self.codigo
             
     def setNome(self, nome):
         self.nome = nome
 
-    def getNome():
+    def getNome(self):
         return self.nome
     
     def setDescricao(self, descricao):
         self.descricao = descricao
 
-    def getDescricao():
+    def getDescricao(self):
         return self.descricao
     
     def setCodSistema(self, cod_sistema):
         self.cod_sistema = cod_sistema
 
-    def getCodSistema():
+    def getCodSistema(self):
         return self.cod_sistema
     
     def listar(self):
@@ -60,8 +60,8 @@ class Perfil:
                     INNER JOIN
                         perfis ON sistemas.codigo = perfis.cod_sistema ORDER BY perfis.codigo ASC; """)
             resposta = banco.cursor.fetchall()
-            resultado = [(row[0], row[1]) for row in resposta]
-            return {'success': True, 'resultado': resultado}
+            # resultado = [(row[0], row[1]) for row in resposta]
+            return {'success': True, 'resultado': resposta}
         except Exception as erro:
             return {'success': False, 'mensagem': f"Ocorreu um erro ao listar os perfis: {erro}"}
         finally:
