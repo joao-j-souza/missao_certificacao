@@ -12,13 +12,13 @@ class Usuario:
     def setCodigo(self, codigo):
         self.codigo = codigo
 
-    def getCodigo():
+    def getCodigo(self):
         return self.codigo
 
     def setCpf(self, cpf):
         self.cpf = cpf
 
-    def getCpf():
+    def getCpf(self):
         return self.cpf
     
     def listar(self):

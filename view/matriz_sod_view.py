@@ -103,6 +103,7 @@ class Funcs():
             controller = MatrizSodController()
             matriz = controller.altera_matriz(codigo, perfil1, perfil2)
             self.exibir_mensagem(matriz)
+            self.limpa_tela()
             self.lista_matrizes()
 
     def apaga_matriz(self):
@@ -129,7 +130,7 @@ class Funcs():
         # if (codigo or nome):
         if codigo:
             matriz = controller.busca_matriz(codigo)
-            if "resultado" in matriz:
+            if 'resultado' in matriz:
                 self.listaMatrizes.delete(*self.listaMatrizes.get_children())
                 for s in matriz['resultado']:
                     self.listaMatrizes.insert("", tk.END, values=s)
@@ -154,19 +155,19 @@ class Funcs():
         # Buscando os perfis no banco de dados
         perfis = controller.lista_perfis_cb()
 
-        # Criando uma lista de valores para o combobox, contendo o nome do perfil
-        values = [value[1] for value in perfis["resultado"]]
-
         # Criando uma lista de valores para o combobox, contendo o código do perfil
-        codigos = [value[0] for value in perfis["resultado"]]
+        codigos = [c_perfis[0] for c_perfis in perfis["resultado"]]
+
+        # Criando uma lista de valores para o combobox, contendo o nome do perfil
+        nomes = [p_nomes[1] for p_nomes in perfis["resultado"]]
 
         # Configurando as opções do combobox para exibir o nome do perfil e retornar o código correspondente
-        self.codigo_perfil1_cb["values"] = values
         self.codigo_perfil1_cb["values_id"] = codigos
+        self.codigo_perfil1_cb["values"] = nomes
 
         # Configurando as opções do combobox para exibir o nome do perfil e retornar o código correspondente
-        self.codigo_perfil2_cb["values"] = values
         self.codigo_perfil2_cb["values_id"] = codigos
+        self.codigo_perfil2_cb["values"] = nomes
 
 
 class MatrizSodView(Funcs):
@@ -265,7 +266,7 @@ class MatrizSodView(Funcs):
         Método lista_componentes
         """
         self.listaMatrizes = ttk.Treeview(
-            self.lista, height=3, columns=("col1", "col2", "col3"))
+        self.lista, height=3, columns=("col1", "col2", "col3"))
         self.listaMatrizes.heading("#0", text="")
         self.listaMatrizes.heading("#1", text="Código")
         self.listaMatrizes.heading("#2", text="Sistema - Perfil")

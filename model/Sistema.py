@@ -12,13 +12,13 @@ class Sistema:
     def setCodigo(self, codigo):
         self.codigo = codigo
 
-    def getCodigo():
+    def getCodigo(self):
         return self.codigo
 
     def setNome(self, nome):
         self.nome = nome
 
-    def getNome():
+    def getNome(self):
         return self.nome
 
     def buscar(self):
