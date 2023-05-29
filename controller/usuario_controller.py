@@ -15,22 +15,23 @@ class UsuarioController:
     def __init__(self):
         pass
 
-    def adiciona_usuario(self, codigo, cpf):
+    def adiciona_usuario(self, nome, cpf):
         """
         Método adiciona_usuario
         """
         usuario = Usuario()
-        usuario.setCodigo(codigo)
+        usuario.setNome(nome)
         usuario.setCpf(cpf)
         resultado = usuario.inserir()
         return resultado
 
-    def altera_usuario(self, codigo, cpf):
+    def altera_usuario(self, codigo, nome, cpf):
         """
         Método altera_usuario
         """
         usuario = Usuario()
         usuario.setCodigo(codigo)
+        usuario.setNome(nome)
         usuario.setCpf(cpf)
         resultado = usuario.alterar()
         return resultado
@@ -44,12 +45,13 @@ class UsuarioController:
         resultado = usuario.deletar()
         return resultado
 
-    def busca_usuario(self, codigo):
+    def busca_usuario(self, codigo, cpf):
         """
         Método busca_usuario
         """
         usuario = Usuario()
         usuario.setCodigo(codigo)
+        usuario.setCpf(cpf)
         resultado = usuario.buscar()
         return resultado
 

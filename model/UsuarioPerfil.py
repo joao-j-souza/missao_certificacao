@@ -67,7 +67,7 @@ class UsuarioPerfil:
             codigo = self.codigo if self.codigo != "" else "NULL"
             query = f""" SELECT 
                         up.codigo,
-                        u.cpf,
+                        u.nome || ' - ' || u.cpf,
                         s.nome || ' - ' || p.nome AS "Sistema_Perfil"	
                     FROM
                         usuarios_perfis up

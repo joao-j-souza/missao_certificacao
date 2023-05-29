@@ -61,3 +61,4 @@ class SistemaController:
         sistema = Sistema()
         resultado = sistema.listar()
         return resultado
+    

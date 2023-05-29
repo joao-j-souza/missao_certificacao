@@ -32,7 +32,7 @@ class Main(tk.Frame):
         """
         self.root.title("Missão Certificação")
         self.root.configure(background='#1e3743')
-        self.root.geometry("700x500")
+        self.root.geometry("900x500")
         self.root.resizable(True, True)
         self.root.maxsize(width=1200, height=800)
         self.root.minsize(width=700, height=400)
@@ -50,9 +50,9 @@ class Main(tk.Frame):
         filemenu.add_command(label="Home", command=self.frame)
         filemenu.add_separator()
         filemenu.add_command(label="Sistemas", command=self.sistema_frame)
-        filemenu.add_command(label="Perfis")
+        filemenu.add_command(label="Perfis", command=self.perfil_frame)
         filemenu.add_command(label="MatrizSoD", command=self.matriz_sod_frame)
-        filemenu.add_command(label="Usuários")
+        filemenu.add_command(label="Usuários", command=self.usuario_frame)
         filemenu.add_command(label="Usuários_Perfis", command=self.usuarios_perfis_frame)
         filemenu.add_separator()
         def sair():
@@ -85,6 +85,13 @@ class Main(tk.Frame):
         self.fecha_componentes()
         self.controller.lista_sistemas()
 
+    def perfil_frame(self):
+        """
+        Método perfil_frame
+        """
+        self.fecha_componentes()
+        self.controller.lista_perfis()
+
     def matriz_sod_frame(self):
         """
         Método matriz_sod_frame
@@ -92,12 +99,19 @@ class Main(tk.Frame):
         self.fecha_componentes()
         self.controller.lista_matrizes_sod()
 
+    def usuario_frame(self):
+        """
+        Método usuario_frame
+        """
+        self.fecha_componentes()
+        self.controller.lista_usuarios()
+
     def usuarios_perfis_frame(self):
         """
         Método usuarios_perfis_frame
         """
         self.fecha_componentes()
-        self.controller.lista_usuarios_perfis()        
+        self.controller.lista_usuarios_perfis()                
 
     def fecha_componentes(self):
         """
