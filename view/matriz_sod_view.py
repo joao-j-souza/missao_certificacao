@@ -69,8 +69,6 @@ class Funcs():
         perfil2_codigo = self.codigo_perfil2_cb["values_id"][self.codigo_perfil2_cb.current(
         )]
 
-        print(perfil1_codigo, perfil2_codigo)
-
         if (not perfil1_codigo) or (not perfil2_codigo):
             if not perfil1_codigo:
                 messagebox.showerror(
@@ -125,9 +123,7 @@ class Funcs():
         Método busca_matriz
         """
         codigo = self.codigo_entry.get()
-        # nome = self.nome_entry.get()
         controller = MatrizSodController()
-        # if (codigo or nome):
         if codigo:
             matriz = controller.busca_matriz(codigo)
             if 'resultado' in matriz:

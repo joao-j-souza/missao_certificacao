@@ -41,7 +41,7 @@ class Usuario:
             banco.cursor.execute(
                 """ SELECT 
                     	codigo,
-	                    cpf
+	                    nome || ' - ' || cpf
                     FROM
 	                    usuarios
                     ORDER BY

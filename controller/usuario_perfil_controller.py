@@ -22,7 +22,7 @@ class UsuarioPerfilController:
         usuario_perfil = UsuarioPerfil()
         usuario_perfil.setCodUsuario(cod_usuario)
         usuario_perfil.setCodPerfil(cod_perfil)
-        resposta = self.valida_matriz_sod(usuario_perfil)
+        resposta = self.valida_matriz_sod(usuario_perfil, 'adiciona')
         if resposta['success']:
             return resposta
         resposta = usuario_perfil.inserir()
@@ -36,7 +36,7 @@ class UsuarioPerfilController:
         usuario_perfil.setCodigo(codigo)
         usuario_perfil.setCodUsuario(cod_usuario)
         usuario_perfil.setCodPerfil(cod_perfil)
-        resposta = self.valida_matriz_sod(usuario_perfil)
+        resposta = self.valida_matriz_sod(usuario_perfil, 'altera')
         if resposta['success']:
             return resposta
         resposta = usuario_perfil.alterar()
@@ -63,29 +63,31 @@ class UsuarioPerfilController:
     def lista_usuarios_perfis(self):
         """
         Método lista_usuario_perfil
-        """   
+        """
         usuario_perfil = UsuarioPerfil()
         resultado = usuario_perfil.listar()
         return resultado
-    
-    def valida_matriz_sod(self, u_perfil):
+
+    def valida_matriz_sod(self, u_perfil, metodo):
         """
         Método valida_matriz_sod
         """
-        m_sod = MatrizSod()
+
         lst_usuario_perfis = u_perfil.buscar()
+        m_sod = MatrizSod()
         lst_matrizes_sod = m_sod.listar()
-        u_perfis = []
-        if 'resultado' in lst_usuario_perfis:
-            for lups in lst_usuario_perfis['resultado']:
-                if(lups[2] > u_perfil.getCodPerfil()):
-                    u_perfis.append(f"{u_perfil.getCodPerfil}_{lups[2]}")
-                else:
-                    u_perfis.append(f"{lups[2]}_{u_perfil.getCodPerfil()}")
-        if 'resultado' in lst_matrizes_sod:
-            for ups in u_perfis:
-                for lms in lst_matrizes_sod['resultado']:
-                    if lms[3] == ups:
-                        return {'success': True, 'mensagem': f"MatrizSoD detectada!!! {lms[3]}"}
+
+        if (('resultado' in lst_matrizes_sod) and ('resultado' in lst_usuario_perfis)):
+
+            if not((metodo == 'altera') and (len(lst_usuario_perfis['resultado'])==1)):
+                matriz = None
+                for lups in lst_usuario_perfis['resultado']:
+                    if(lups[2] > u_perfil.getCodPerfil()):
+                        matriz = f"{u_perfil.getCodPerfil()}_{lups[2]}"
+                    else:
+                        matriz = f"{lups[2]}_{u_perfil.getCodPerfil()}"
+                    for lms in lst_matrizes_sod['resultado']:
+                        if lms[3] == matriz:
+                            return {'success': True, 'mensagem': "MatrizSoD detectada!!!"}
+
         return {'success': False}
-    

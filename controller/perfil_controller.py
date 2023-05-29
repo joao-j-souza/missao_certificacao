@@ -15,27 +15,26 @@ class PerfilController:
     def __init__(self):
         pass
 
-    def adiciona_perfil(self, codigo, nome, descricao, cod_sistema):
+    def adiciona_perfil(self, cod_sistema, nome, descricao):
         """
         Método adicionar_perfil
         """
         perfil = Perfil()
-        perfil.setCodigo(codigo)
+        perfil.setCodSistema(cod_sistema)
         perfil.setNome(nome)
         perfil.setDescricao(descricao)
-        perfil.setCodSistema(cod_sistema)
         resultado = perfil.inserir()
         return resultado
 
-    def altera_perfil(self, codigo, nome, descricao, cod_sistema):
+    def altera_perfil(self, codigo, cod_sistema, nome, descricao):
         """
         Método altera_perfil
         """
         perfil = Perfil()
         perfil.setCodigo(codigo)
+        perfil.setCodSistema(cod_sistema)        
         perfil.setNome(nome)
         perfil.setDescricao(descricao)
-        perfil.setCodSistema(cod_sistema)
         resultado = perfil.alterar()
         return resultado
     
@@ -54,7 +53,7 @@ class PerfilController:
         """
         perfil = Perfil()
         perfil.setCodigo(codigo)
-        resultado = perfil.buscar()
+        resultado = perfil.listar_cb()
         return resultado
 
     def lista_perfis(self):

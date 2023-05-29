@@ -4,9 +4,11 @@ Permite adicionar o diretório pai do arquivo atual ao caminho de busca de módu
 import sys
 from pathlib import Path
 from model.Sistema import Sistema
+from model.Perfil import Perfil
 from model.MatrizSod import MatrizSod
 from model.UsuarioPerfil import UsuarioPerfil
 from view.sistema_view import SistemaView
+from view.perfil_view import PerfilView
 from view.matriz_sod_view import MatrizSodView
 from view.usuario_perfil_view import UsuarioPerfilView
 
@@ -33,6 +35,16 @@ class MainController:
         sistema = Sistema()
         resultado = sistema.listar()
         SistemaView(self.root, resultado)
+
+    def lista_perfis(self):
+        """
+        Chama o método listar de Perfil e passa o resultado
+        como parâmetro para a classe PerfilListaView
+        :param root: recebe o master 
+        """
+        perfil = Perfil()
+        resultado = perfil.listar()
+        PerfilView(self.root, resultado)
 
     def lista_matrizes_sod(self):
         """

@@ -32,7 +32,7 @@ class Main(tk.Frame):
         """
         self.root.title("Missão Certificação")
         self.root.configure(background='#1e3743')
-        self.root.geometry("700x500")
+        self.root.geometry("900x500")
         self.root.resizable(True, True)
         self.root.maxsize(width=1200, height=800)
         self.root.minsize(width=700, height=400)
@@ -50,7 +50,7 @@ class Main(tk.Frame):
         filemenu.add_command(label="Home", command=self.frame)
         filemenu.add_separator()
         filemenu.add_command(label="Sistemas", command=self.sistema_frame)
-        filemenu.add_command(label="Perfis")
+        filemenu.add_command(label="Perfis", command=self.perfil_frame)
         filemenu.add_command(label="MatrizSoD", command=self.matriz_sod_frame)
         filemenu.add_command(label="Usuários")
         filemenu.add_command(label="Usuários_Perfis", command=self.usuarios_perfis_frame)
@@ -84,6 +84,13 @@ class Main(tk.Frame):
         """
         self.fecha_componentes()
         self.controller.lista_sistemas()
+
+    def perfil_frame(self):
+        """
+        Método perfil_frame
+        """
+        self.fecha_componentes()
+        self.controller.lista_perfis()
 
     def matriz_sod_frame(self):
         """
