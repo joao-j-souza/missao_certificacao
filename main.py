@@ -52,7 +52,7 @@ class Main(tk.Frame):
         filemenu.add_command(label="Sistemas", command=self.sistema_frame)
         filemenu.add_command(label="Perfis", command=self.perfil_frame)
         filemenu.add_command(label="MatrizSoD", command=self.matriz_sod_frame)
-        filemenu.add_command(label="Usuários")
+        filemenu.add_command(label="Usuários", command=self.usuario_frame)
         filemenu.add_command(label="Usuários_Perfis", command=self.usuarios_perfis_frame)
         filemenu.add_separator()
         def sair():
@@ -99,12 +99,19 @@ class Main(tk.Frame):
         self.fecha_componentes()
         self.controller.lista_matrizes_sod()
 
+    def usuario_frame(self):
+        """
+        Método usuario_frame
+        """
+        self.fecha_componentes()
+        self.controller.lista_usuarios()
+
     def usuarios_perfis_frame(self):
         """
         Método usuarios_perfis_frame
         """
         self.fecha_componentes()
-        self.controller.lista_usuarios_perfis()        
+        self.controller.lista_usuarios_perfis()                
 
     def fecha_componentes(self):
         """

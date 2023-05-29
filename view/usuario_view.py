@@ -7,7 +7,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.font import Font
 from tkinter import messagebox
-from controller.sistema_controller import SistemaController
+from controller.usuario_controller import UsuarioController
 
 file = Path(__file__).resolve()
 parent, master = file.parent, file.parents[1]
@@ -16,12 +16,13 @@ sys.path.append(str(master))
 
 class Funcs():
     """
-    Classe com as fuções relativas a view de sistemas.
+    Classe com as fuções relativas a view de usuarios.
     """
 
     def __init__(self):
         self.codigo_entry = None
         self.nome_entry = None
+        self.cpf_entry = None
 
     def limpa_tela(self):
         """
@@ -29,7 +30,8 @@ class Funcs():
         """
         self.codigo_entry.delete(0, tk.END)
         self.nome_entry.delete(0, tk.END)
-        self.lista_sistemas()
+        self.cpf_entry.delete(0, tk.END)
+        self.lista_usuarios()
 
     def duplo_clique(self, event):
         """
@@ -37,95 +39,99 @@ class Funcs():
         :param event: Evento que captura o duplo clique. 
         """
         self.codigo_entry.delete(0, tk.END)
-        self.nome_entry.delete(0, tk.END)        
-        self.listaSistemas.selection()
-        for n in self.listaSistemas.selection():
-            col1, col2 = self.listaSistemas.item(n, 'values')
+        self.nome_entry.delete(0, tk.END)
+        self.cpf_entry.delete(0, tk.END)
+        self.listaUsuarios.selection()
+        for n in self.listaUsuarios.selection():
+            col1, col2, col3 = self.listaUsuarios.item(n, 'values')
             self.codigo_entry.insert(tk.END, col1)
             self.nome_entry.insert(tk.END, col2)
+            self.cpf_entry.insert(tk.END, col3)
 
-    def exibir_mensagem(self, sistema):
-        if sistema['success']:
-           if "mensagem" in sistema:
-                messagebox.showinfo("Informação", sistema['mensagem'])
+    def exibir_mensagem(self, usuario):
+        if usuario['success']:
+           if "mensagem" in usuario:
+                messagebox.showinfo("Informação", usuario['mensagem'])
         else:
-            messagebox.showerror("Erro", sistema['mensagem'])
+            messagebox.showerror("Erro", usuario['mensagem'])
 
-    def cria_sistema(self):
+    def cria_usuario(self):
         """
-        Função para cadastrar um sistema.
+        Função para cadastrar um usuario.
         """
         nome = self.nome_entry.get()
+        cpf = self.cpf_entry.get()
         if not nome:
             messagebox.showerror("Alerta!", "O Campo Nome é obrigatório!")
         else:
-            controller = SistemaController()
-            sistema = controller.adiciona_sistema(nome)
-            self.exibir_mensagem(sistema)
+            controller = UsuarioController()
+            usuario = controller.adiciona_usuario(nome, cpf)
+            self.exibir_mensagem(usuario)
             self.limpa_tela()
-            self.lista_sistemas()
+            self.lista_usuarios()
 
-    def altera_sistema(self):
+    def altera_usuario(self):
         """
-        Função para alterar um sistema.
+        Função para alterar um usuario.
         """
         codigo = self.codigo_entry.get()
         nome = self.nome_entry.get()
+        cpf = self.cpf_entry.get()
         if not codigo:
             messagebox.showerror("Alerta!", "O Campo Código é obrigatório!")
         else:
-            controller = SistemaController()
-            sistema = controller.altera_sistema(codigo, nome)
-            self.exibir_mensagem(sistema)
-            self.lista_sistemas()
+            controller = UsuarioController()
+            usuario = controller.altera_usuario(codigo, nome, cpf)
+            self.exibir_mensagem(usuario)
+            self.lista_usuarios()
 
-    def apaga_sistema(self):
+    def apaga_usuario(self):
         """
-        Função para apagar um sistema.
+        Função para apagar um usuario.
         """
         codigo = self.codigo_entry.get()
         if not codigo:
             messagebox.showerror("Alerta!", "O Campo Código é obrigatório!")
         else:
-            controller = SistemaController()
-            sistema = controller.apaga_sistema(codigo)
-            self.exibir_mensagem(sistema)
+            controller = UsuarioController()
+            usuario = controller.apaga_usuario(codigo)
+            self.exibir_mensagem(usuario)
             self.limpa_tela()
-            self.lista_sistemas()            
+            self.lista_usuarios()
 
-    def busca_sistema(self):
+    def busca_usuario(self):
         """
-        Método busca_sistema
+        Método busca_usuario
         """
         codigo = self.codigo_entry.get()
-        nome = self.nome_entry.get()
-        controller = SistemaController()
-        if (codigo or nome):
-            sistema = controller.busca_sistema(codigo, nome)
-            if "resultado" in sistema:                
-                self.listaSistemas.delete(*self.listaSistemas.get_children())
-                for s in sistema['resultado']:
-                    self.listaSistemas.insert("", tk.END, values=s)
-            self.exibir_mensagem(sistema)
+        cpf = self.cpf_entry.get()
+        controller = UsuarioController()
+        if (codigo or cpf):
+            usuario = controller.busca_usuario(codigo, cpf)
+            if "resultado" in usuario:
+                self.listaUsuarios.delete(*self.listaUsuarios.get_children())
+                for s in usuario['resultado']:
+                    self.listaUsuarios.insert("", tk.END, values=s)
+            self.exibir_mensagem(usuario)
         else:
             messagebox.showinfo("Informação", "Digite o código ou o nome.")
 
-    def lista_sistemas(self):
+    def lista_usuarios(self):
         """
-        Método lista_sistemas
+        Método lista_usuarios
         """
-        self.listaSistemas.delete(*self.listaSistemas.get_children())
-        controller = SistemaController()
-        sistemas = controller.lista_sistemas()
-        if sistemas['success']:
-            for sistema in sistemas['resultado']:
-                self.listaSistemas.insert("", tk.END, values=sistema)
+        self.listaUsuarios.delete(*self.listaUsuarios.get_children())
+        controller = UsuarioController()
+        usuarios = controller.lista_usuarios()
+        if usuarios['success']:
+            for usuario in usuarios['resultado']:
+                self.listaUsuarios.insert("", tk.END, values=usuario)
         #else:
-        self.exibir_mensagem(sistemas)
+        self.exibir_mensagem(usuarios)
 
-class SistemaView(Funcs):
+class UsuarioView(Funcs):
     """
-    Classe SistemaView
+    Classe UsuarioView
     """
 
     def __init__(self, root=None, resultado=None):
@@ -139,11 +145,11 @@ class SistemaView(Funcs):
         # Chama o método que configura os componentes no frame.
         self.componentes()
         self.lista_componentes()
-        self.lista_sistemas()
+        self.lista_usuarios()
 
     def frame(self):
         """
-        Método sistemas_frame
+        Método usuarios_frame
         """
         # Cria o Frame para o Form de Cadastro
         self.form = tk.Frame(self.root, bg='#dfe3ee', bd=4,
@@ -154,14 +160,14 @@ class SistemaView(Funcs):
         """
         Método lista_frame
         """
-        # Cria o Frame para a Listagem de Sistemas
+        # Cria o Frame para a Listagem de Usuarios
         self.lista = tk.Frame(self.root, bg='#dfe3ee', bd=4,
                               highlightbackground='#759fe6', highlightthickness=3)
         self.lista.place(relx=0.02, rely=0.69, relwidth=0.96, relheight=0.29)
 
     def componentes(self):
         """
-        Método sistemas_componentes
+        Método usuarios_componentes
         """
         bt_font = Font(family="verdana", size=8, weight="bold")
         # Criação do Botão Limpar
@@ -170,19 +176,19 @@ class SistemaView(Funcs):
         bt_limpar.place(relx=0.2, rely=0.1, relwidth=0.1, relheight=0.1)
         # Criação do Botão Buscar
         bt_buscar = tk.Button(self.form, text="Buscar", bd=2, bg="#107db2",
-                              fg="white", font=bt_font, command=self.busca_sistema)
+                              fg="white", font=bt_font, command=self.busca_usuario)
         bt_buscar.place(relx=0.305, rely=0.1, relwidth=0.1, relheight=0.1)
         # Criação do Botão Novo
         bt_novo = tk.Button(self.form, text="Novo", bd=2, bg="#107db2",
-                            fg="white", font=bt_font, command=self.cria_sistema)
+                            fg="white", font=bt_font, command=self.cria_usuario)
         bt_novo.place(relx=0.55, rely=0.1, relwidth=0.1, relheight=0.1)
         # Criação do Botão Alterar
         bt_alterar = tk.Button(self.form, text="Alterar", bd=2, bg="#107db2",
-                               fg="white", font=bt_font, command=self.altera_sistema)
+                               fg="white", font=bt_font, command=self.altera_usuario)
         bt_alterar.place(relx=0.655, rely=0.1, relwidth=0.1, relheight=0.1)
         # Criação do Botão Apagar
         bt_apagar = tk.Button(self.form, text="Apagar",
-                              bd=2, bg="#107db2", fg="white", font=bt_font, command=self.apaga_sistema)
+                              bd=2, bg="#107db2", fg="white", font=bt_font, command=self.apaga_usuario)
         bt_apagar.place(relx=0.76, rely=0.1, relwidth=0.1, relheight=0.1)
 
         # Criação da Label de Entrada do Código
@@ -199,21 +205,30 @@ class SistemaView(Funcs):
         self.nome_entry = tk.Entry(self.form)
         self.nome_entry.place(relx=0.14, rely=0.3, relwidth=0.78)
 
+        # Criação da Label e Entrada do cpf
+        lb_cpf = tk.Label(self.form, text="Cpf*:",
+                           bg="#dfe3ee", fg="#107db2")
+        lb_cpf.place(relx=0.05, rely=0.5)
+        self.cpf_entry = tk.Entry(self.form)
+        self.cpf_entry.place(relx=0.14, rely=0.5, relwidth=0.78)
+
     def lista_componentes(self):
         """
         Método lista_componentes
         """
-        self.listaSistemas = ttk.Treeview(
-            self.lista, height=3, columns=("col1", "col2"))
-        self.listaSistemas.heading("#0", text="")
-        self.listaSistemas.heading("#1", text="Código")
-        self.listaSistemas.heading("#2", text="Nome")
-        self.listaSistemas.column("#0", width=10)
-        self.listaSistemas.column("#1", width=40)
-        self.listaSistemas.column("#2", width=350)
-        self.listaSistemas.place(relx=0.01, rely=0.02,
+        self.listaUsuarios = ttk.Treeview(
+            self.lista, height=3, columns=("col1", "col2", "col3"))
+        self.listaUsuarios.heading("#0", text="")
+        self.listaUsuarios.heading("#1", text="Código")
+        self.listaUsuarios.heading("#2", text="Nome")
+        self.listaUsuarios.heading("#3", text="Cpf")
+        self.listaUsuarios.column("#0", width=10)
+        self.listaUsuarios.column("#1", width=40)
+        self.listaUsuarios.column("#2", width=175)
+        self.listaUsuarios.column("#3", width=175)        
+        self.listaUsuarios.place(relx=0.01, rely=0.02,
                                  relwidth=0.95, relheight=0.95)
         scrool_lista = tk.Scrollbar(self.lista, orient="vertical")
-        self.listaSistemas.configure(yscroll=scrool_lista.set)
+        self.listaUsuarios.configure(yscroll=scrool_lista.set)
         scrool_lista.place(relx=0.96, rely=0.02, relwidth=0.03, relheight=0.95)
-        self.listaSistemas.bind("<Double-1>", self.duplo_clique)
+        self.listaUsuarios.bind("<Double-1>", self.duplo_clique)

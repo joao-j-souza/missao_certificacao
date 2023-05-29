@@ -6,10 +6,12 @@ from pathlib import Path
 from model.Sistema import Sistema
 from model.Perfil import Perfil
 from model.MatrizSod import MatrizSod
+from model.Usuario import Usuario
 from model.UsuarioPerfil import UsuarioPerfil
 from view.sistema_view import SistemaView
 from view.perfil_view import PerfilView
 from view.matriz_sod_view import MatrizSodView
+from view.usuario_view import UsuarioView
 from view.usuario_perfil_view import UsuarioPerfilView
 
 file = Path(__file__).resolve()
@@ -55,6 +57,16 @@ class MainController:
         matriz = MatrizSod()
         resultado = matriz.listar_cb()
         MatrizSodView(self.root, resultado)
+
+    def lista_usuarios(self):
+        """
+        Chama o método listar de Usuario e passa o resultado
+        como parâmetro para a classe UsuarioView
+        :param root: recebe o master
+        """
+        usuario = Usuario()
+        resultado = usuario.listar()
+        UsuarioView(self.root, resultado)
 
     def lista_usuarios_perfis(self):
         """
