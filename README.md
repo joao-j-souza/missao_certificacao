@@ -1,6 +1,12 @@
 Video de apresentação do programa:
     https://youtu.be/yXJDQYMBlew
 
+Colaboradores:
+    https://github.com/Estefanilira
+    https://github.com/JefersonSmith
+    https://github.com/L-Raisa
+    https://github.com/ricardolopesma
+
 Bibliotecas necessárias:
     tkinter
     sys
